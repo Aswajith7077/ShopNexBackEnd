@@ -5,12 +5,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-// app.use((req,res,next)=>{
-//   if(req.hostname === "127.0.0.1")
-//       return next();
-//   else
-//     return res.sendStatus(404);
-// });
 app.use(express.json());
 
 const pool = mysql
@@ -20,8 +14,6 @@ const pool = mysql
     password: process.env.DB_PASSWORD,
     database: process.env.DATABASE
   });
-
-console.log("hello");
 
 
 
@@ -175,8 +167,6 @@ app.post('/product',(req,res)=>{
 
 
 
-app.listen(9000,()=>{
-  console.log('Server is live at 9000');
-});
+app.listen(process.env.PORT,()=>{});
 
 
