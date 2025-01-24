@@ -5,6 +5,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
+// app.use((req,res,next)=>{
+//   if(req.hostname === "127.0.0.1")
+//       return next();
+//   else
+//     return res.sendStatus(404);
+// });
 app.use(express.json());
 
 const pool = mysql
@@ -53,6 +59,7 @@ GET CART ITEMS OF A USER
 */
 
 app.get('/cart',(req,res)=>{
+  // console.log(req)
   if(!req.body){
     return;
   }
@@ -168,8 +175,8 @@ app.post('/product',(req,res)=>{
 
 
 
-app.listen(8000,()=>{
-  console.log('Server is live at 8000');
+app.listen(9000,()=>{
+  console.log('Server is live at 9000');
 });
 
 
