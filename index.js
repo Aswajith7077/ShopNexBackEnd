@@ -92,7 +92,7 @@ CHECKS EXISTANCE OF A USER
 */
 
 app.post("/createuser", (req, res) => {
-  if (!req.data ) return;
+  if (!req.body ) return;
 
   pool.getConnection((err, connection) => {
     if (err) {
@@ -101,7 +101,7 @@ app.post("/createuser", (req, res) => {
     }
 
     connection.query(
-      `CALL CREATE_USER('${req.data["USER_ID"]}','${req.data["PASSWORD"]}')`,
+      `CALL CREATE_USER('${req.body["USER_ID"]}','${req.body["PASSWORD"]}')`,
       (err, rows) => {
         connection.release();
         if (err) {
@@ -117,7 +117,7 @@ app.post("/createuser", (req, res) => {
 
 
 app.post("/changelog", (req, res) => {
-  if (!req.data) return;
+  if (!req.body) return;
 
   pool.getConnection((err, connection) => {
     if (err) {
@@ -126,7 +126,7 @@ app.post("/changelog", (req, res) => {
     }
 
     connection.query(
-      `CALL CREATE_USER('${req.data["USER_ID"]}','${req.data["PASSWORD"]}')`,
+      `CALL CREATE_USER('${req.body["USER_ID"]}','${req.body["PASSWORD"]}')`,
       (err, rows) => {
         connection.release();
         if (err) {
