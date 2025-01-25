@@ -131,9 +131,10 @@ app.post("/createuser", (req, res) => {
       console.log("Database connection error : ", err);
       return res.status(500).json({ err: "Database Error" });
     }
+    const {email,password} = req.body;
 
     connection.query(
-      `CALL CREATE_USER('${req.body["USER_ID"]}','${req.body["PASSWORD"]}')`,
+      `CALL CREATE_USER('${email}','${password}')`,
       (err, rows) => {
         connection.release();
         if (err) {
@@ -156,9 +157,9 @@ app.post("/login", (req, res) => {
       console.log("Database connection error : ", err);
       return res.status(500).json({ err: "Database Error" });
     }
-
+    const {email,password} = req.body
     connection.query(
-      `CALL LOGIN_USER('${req.body["USER_ID"]}','${req.body["PASSWORD"]}')`,
+      `CALL LOGIN_USER('${email}','${password}')`,
       (err, rows) => {
         connection.release();
         if (err) {
