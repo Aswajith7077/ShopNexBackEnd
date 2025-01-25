@@ -40,7 +40,107 @@ app.get('/',(req,res)=>{
       console.log("GET_MIN_POINTS_FOR_REWARD Successfull Execution !")
     });
   })
-})
+});
+
+
+/*
+
+A GET Request with body {"USER_ID" :'johndoe@example.com'} 
+
+CHECKS USER EXISTANCE
+
+*/
+
+
+app.get('/userexists',(req,res) => {
+  if(!req.body)
+    return;
+
+  pool.getConnection((err,connection) => {
+    if(err){
+      console.log("Database connection error : ", err);
+      return res.status(500).json({ err: "Database Error" });
+    }
+
+
+
+    connection.query(
+      `CALL CHECK_USER_EXISTS('${req.body["USER_ID"]}')`,
+      (err, rows) => {
+        connection.release();
+        if (err) {
+          console.log("Query Error", err);
+          return res.status(500).json({ error: "Database Query Error" });
+        }
+        res.json({user_existance : rows[0] === 'SUCCESS' ? true : false } );
+        console.log("CHECK_USER_EXISTS Successfull Execution !");
+      }
+    );
+  })
+});
+
+
+
+
+
+/*
+
+A GET Request with body {"USER_ID" :'johndoe@example.com',"PASSWD"} 
+
+CHECKS EXISTANCE OF A USER
+
+*/
+
+app.post("/createuser", (req, res) => {
+  if (!req.data ) return;
+
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.log("Database connection error : ", err);
+      return res.status(500).json({ err: "Database Error" });
+    }
+
+    connection.query(
+      `CALL CREATE_USER('${req.data["USER_ID"]}','${req.data["PASSWORD"]}')`,
+      (err, rows) => {
+        connection.release();
+        if (err) {
+          console.log("Query Error", err);
+          return res.status(500).json({ error: "Database Query Error" });
+        }
+        res.json({ user_existance: rows[0] === "SUCCESS" ? true : false });
+        console.log("CREATE_USER Successfull Execution !");
+      }
+    );
+  });
+});
+
+
+app.post("/changelog", (req, res) => {
+  if (!req.data) return;
+
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.log("Database connection error : ", err);
+      return res.status(500).json({ err: "Database Error" });
+    }
+
+    connection.query(
+      `CALL CREATE_USER('${req.data["USER_ID"]}','${req.data["PASSWORD"]}')`,
+      (err, rows) => {
+        connection.release();
+        if (err) {
+          console.log("Query Error", err);
+          return res.status(500).json({ error: "Database Query Error" });
+        }
+        res.json({ user_existance: rows[0] === "SUCCESS" ? true : false });
+        console.log("CREATE_USER Successfull Execution !");
+      }
+    );
+  });
+});
+
+
 
 /*
 
@@ -76,31 +176,34 @@ app.get('/cart',(req,res)=>{
 
 /*
 
-A Post Requst with  body { USER_ID: 'johndoe@example.com'}
+A Post Requst with  body { USER_ID: 'johndoe@example.com',PASSWD: 'johndoe'}
 
-
+CHANGE_PASSWORD OF A USER
 
 */
 
-app.post('/',(req,res)=>{
+app.post('/changepassword',(req,res)=>{
   if(!req.body){
     return;
   }
-  // console.log(req.body["USER_ID"])
+
   pool.getConnection((err,connection)=>{
     if(err){
-      // console.log('Database connection error',err);
+      console.log('Database connection error',err);
       return res.status(500).json({error : 'Database error'})
     }
-    connection.query(`CALL GET_CART_ITEMS('${req.body["USER_ID"]}')`,(err,rows)=>{
-      connection.release();
-      if(err){
-        // console.log('Query Error',err);
-        return res.status(500).json({error : "Database Query Error"});
+    connection.query(
+      `CALL CHANGE_PASSWORD('${req.body["USER_ID"]}')`,
+      (err, rows) => {
+        connection.release();
+        if (err) {
+          console.log('Query Error',err);
+          return res.status(500).json({ error: "Database Query Error" });
+        }
+        res.json({result : rows[0]});
+        console.log("CHANGE PASSWORD Successfull Execution !");
       }
-      res.json(rows[0]);
-      console.log("GET_CART_ITEMS Successfull Execution !");
-    })
+    );
 
   })
 });
