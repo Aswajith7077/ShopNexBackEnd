@@ -13,7 +13,7 @@ const corsOptions = {
 };
 
 const app = express();
-app.use(process.env.DEBUG === "TRUE"? cors(corsOptions) : express.json());
+app.use(cors(corsOptions) );
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
