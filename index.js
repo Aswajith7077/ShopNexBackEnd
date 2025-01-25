@@ -64,12 +64,38 @@ app.get("/getitems", (req, res) => {
         console.log("Query Error", err);
         return res.status(500).json({ error: "Database Query Error" });
       }
-      res.json({ user_existance: rows[0] === "SUCCESS" ? true : false });
+      res.json(rows);
       console.log("GET ITEMS Successfull Execution !");
     });
   });
 });
 
+app.get("/searchitems", (req, res) => {
+  console.log(req)
+  if (!req.body) {
+    return;
+  }
+  console.log(req.body["USER_ID"]);
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.log("Database connection error", err);
+      return res.status(500).json({ message: "Database error",err:err });
+    }
+    const { searchText } = req.body;
+    connection.query(
+      `CALL GET_SEARCH_RESULTS('${searchText}')`,
+      (err, rows) => {
+        connection.release();
+        if (err) {
+          console.log("Query Error", err);
+          return res.status(400).json({ error: "Database Query Error" });
+        }
+        res.json(rows);
+        console.log("GET SEARCH RESULTS Successfull Execution !");
+      }
+    );
+  });
+});
 /*
 
 A GET Request with body {"USER_ID" :'johndoe@example.com'} 
@@ -106,8 +132,7 @@ app.get("/userexists", (req, res) => {
 
 A GET Request with body {"USER_ID" :'johndoe@example.com',"PASSWD"} 
 
-CHECKS EXISTANCE OF A USER
-
+CREATES USER
 */
 
 app.post("/createuser", (req, res) => {
@@ -134,7 +159,7 @@ app.post("/createuser", (req, res) => {
     );
   });
 });
-
+/* LOGS USER */
 app.put("/login", (req, res) => {
 
   console.log(req);
@@ -161,10 +186,11 @@ app.put("/login", (req, res) => {
   });
 });
 
+
+
 /*
 
 A GET Request with body {"USER_ID" :'johndoe@example.com'} 
-
 GET CART ITEMS OF A USER
 
 */
@@ -197,32 +223,7 @@ app.get("/cart", (req, res) => {
 
 
 
-app.get("/searchitems", (req, res) => {
-  console.log(req)
-  if (!req.body) {
-    return;
-  }
-  console.log(req.body["USER_ID"]);
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.log("Database connection error", err);
-      return res.status(500).json({ message: "Database error",err:err });
-    }
-    const { searchText } = req.body;
-    connection.query(
-      `CALL GET_SEARCH_RESULTS('${searchText}')`,
-      (err, rows) => {
-        connection.release();
-        if (err) {
-          console.log("Query Error", err);
-          return res.status(400).json({ error: "Database Query Error" });
-        }
-        res.json(rows);
-        console.log("GET SEARCH RESULTS Successfull Execution !");
-      }
-    );
-  });
-});
+
 
 
 
@@ -234,7 +235,7 @@ CHANGE_PASSWORD OF A USER
 
 */
 
-app.post("/changepassword", (req, res) => {
+app.put("/changepassword", (req, res) => {
   if (!req.body) {
     return;
   }
