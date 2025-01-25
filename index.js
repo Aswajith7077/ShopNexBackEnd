@@ -6,14 +6,14 @@ import cors from "cors";
 dotenv.config();
 
 const corsOptions = {
-  origin: [process.env.FRONTEND_URL],
+  origin: ["https://shop-nex-front-end.vercel.app/"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204
 };
 
 const app = express();
-app.use(cors(corsOptions) );
+app.use(cors(corsOptions));
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -21,7 +21,6 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DATABASE
 });
-
 
 /*
 
@@ -71,7 +70,6 @@ app.get("/getitems", (req, res) => {
 });
 
 app.get("/searchitems", (req, res) => {
-  console.log(req)
   if (!req.body) {
     return;
   }
@@ -79,7 +77,7 @@ app.get("/searchitems", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) {
       console.log("Database connection error", err);
-      return res.status(500).json({ message: "Database error",err:err });
+      return res.status(500).json({ message: "Database error", err: err });
     }
     const { searchText } = req.body;
     connection.query(
@@ -161,7 +159,6 @@ app.post("/createuser", (req, res) => {
 });
 /* LOGS USER */
 app.put("/login", (req, res) => {
-
   console.log(req);
   if (!req.body) return;
 
@@ -186,8 +183,6 @@ app.put("/login", (req, res) => {
   });
 });
 
-
-
 /*
 
 A GET Request with body {"USER_ID" :'johndoe@example.com'} 
@@ -196,7 +191,6 @@ GET CART ITEMS OF A USER
 */
 
 app.get("/cart", (req, res) => {
-  console.log(req)
   if (!req.body) {
     return;
   }
@@ -220,12 +214,6 @@ app.get("/cart", (req, res) => {
     );
   });
 });
-
-
-
-
-
-
 
 /*
 
@@ -268,7 +256,6 @@ ADD AN ELEMENT TO CART
 
 */
 app.post("/cart", (req, res) => {
-  console.log(req.body);
   pool.getConnection((err, connection) => {
     if (err) {
       console.log("Database connection error", err);
