@@ -6,7 +6,7 @@ import cors from "cors";
 dotenv.config();
 
 const corsOptions = {
-  origin: ["https://shop-nex-front-end.vercel.app"], // Replace with your allowed origin
+  origin: [process.env.FRONTEND_URL],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204
@@ -135,7 +135,7 @@ app.post("/createuser", (req, res) => {
   });
 });
 
-app.post("/login", (req, res) => {
+app.put("/login", (req, res) => {
 
   console.log(req);
   if (!req.body) return;
