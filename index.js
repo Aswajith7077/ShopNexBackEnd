@@ -14,7 +14,7 @@ const corsOptions = {
 
 const app = express();
 app.use(express.json());
-
+``
 const pool = mysql
   .createPool({
     host: process.env.DB_HOST,
