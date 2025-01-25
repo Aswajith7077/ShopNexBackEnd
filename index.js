@@ -43,6 +43,30 @@ app.get('/',(req,res)=>{
 });
 
 
+
+app.get('/getitems',(req,res)=>{
+  pool.getConnection((err,connection) => {
+    if (err) {
+      console.log("Database connection error : ", err);
+      return res.status(500).json({ err: "Database Error" });
+    }
+
+    connection.query(
+      `CALL GET_ITEMS()`,
+      (err, rows) => {
+        connection.release();
+        if (err) {
+          console.log("Query Error", err);
+          return res.status(500).json({ error: "Database Query Error" });
+        }
+        res.json({ user_existance: rows[0] === "SUCCESS" ? true : false });
+        console.log("GET ITEMS Successfull Execution !");
+      }
+    );
+  })
+})
+
+
 /*
 
 A GET Request with body {"USER_ID" :'johndoe@example.com'} 
@@ -133,8 +157,8 @@ app.post("/login", (req, res) => {
           console.log("Query Error", err);
           return res.status(500).json({ error: "Database Query Error" });
         }
-        res.json({ user_existance: rows[0] === "SUCCESS" ? true : false });
-        console.log("CREATE_USER Successfull Execution !");
+        res.json({ user_logged: rows[0] === "SUCCESS" ? true : false });
+        console.log("LOGIN_USER Successfull Execution !");
       }
     );
   });
