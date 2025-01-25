@@ -6,7 +6,7 @@ import cors from 'cors';
 dotenv.config();
 
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://shop-nex-front-end.vercel.app"], // Replace with your allowed origin
+  origin: ["https://shop-nex-front-end.vercel.app"], // Replace with your allowed origin
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204
