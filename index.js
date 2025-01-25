@@ -22,6 +22,7 @@ const pool = mysql.createPool({
   database: process.env.DATABASE
 });
 
+
 /*
 
 GET MINIMUM POINTS TO GET A REWARD
@@ -191,6 +192,37 @@ app.get("/cart", (req, res) => {
     );
   });
 });
+
+
+
+app.get("/searchitems", (req, res) => {
+  // console.log(req)
+  if (!req.body) {
+    return;
+  }
+  console.log(req.body["USER_ID"]);
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.log("Database connection error", err);
+      return res.status(500).json({ message: "Database error",err:err });
+    }
+    const { searchText } = req.body;
+    connection.query(
+      `CALL GET_SEARCH_RESULTS('${searchText}')`,
+      (err, rows) => {
+        connection.release();
+        if (err) {
+          console.log("Query Error", err);
+          return res.status(400).json({ error: "Database Query Error" });
+        }
+        res.json(rows);
+        console.log("GET SEARCH RESULTS Successfull Execution !");
+      }
+    );
+  });
+});
+
+
 
 /*
 
