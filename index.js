@@ -1,11 +1,19 @@
 import express from "express";
 import mysql from "mysql2";
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 dotenv.config();
 
+const corsOptions = {
+  origin: ["http://localhost:5173", "https://shop-nex-front-end.vercel.app"], // Replace with your allowed origin
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204
+};
+
 const app = express();
-app.use(express.json());
+app.use(cors(corsOptions));
 
 const pool = mysql
   .createPool({
