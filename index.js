@@ -116,7 +116,7 @@ app.post("/createuser", (req, res) => {
 });
 
 
-app.post("/changelog", (req, res) => {
+app.post("/login", (req, res) => {
   if (!req.body) return;
 
   pool.getConnection((err, connection) => {
@@ -126,7 +126,7 @@ app.post("/changelog", (req, res) => {
     }
 
     connection.query(
-      `CALL CREATE_USER('${req.body["USER_ID"]}','${req.body["PASSWORD"]}')`,
+      `CALL LOGIN_USER('${req.body["USER_ID"]}','${req.body["PASSWORD"]}')`,
       (err, rows) => {
         connection.release();
         if (err) {
