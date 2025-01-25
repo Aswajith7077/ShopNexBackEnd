@@ -136,6 +136,8 @@ app.post("/createuser", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
+
+  console.log(req);
   if (!req.body) return;
 
   pool.getConnection((err, connection) => {
@@ -168,7 +170,7 @@ GET CART ITEMS OF A USER
 */
 
 app.get("/cart", (req, res) => {
-  // console.log(req)
+  console.log(req)
   if (!req.body) {
     return;
   }
@@ -196,7 +198,7 @@ app.get("/cart", (req, res) => {
 
 
 app.get("/searchitems", (req, res) => {
-  // console.log(req)
+  console.log(req)
   if (!req.body) {
     return;
   }
