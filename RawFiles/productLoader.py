@@ -13,7 +13,7 @@ while True:
     except OverflowError:
         maxInt = int(maxInt/10)
 
-        
+
 import mysql.connector
 
 
@@ -122,6 +122,8 @@ with open('./amazon-products.csv','r',encoding = "utf-8") as file:
     csv_data = csv.reader(file)
     for line in csv_data:
         cursor.execute(sql,line)
+
+mydb.commit()
 # for row in csv_data:
 
 #     cursor.execute(sql.query)
