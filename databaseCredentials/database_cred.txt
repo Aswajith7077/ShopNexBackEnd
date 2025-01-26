@@ -1,0 +1,7 @@
+Service URI : mysql://avnadmin:AVNS_3WqvE9ObSRe3I43wQ7g@shopnex-shopnex.g.aivencloud.com:22158/defaultdb?ssl-mode=REQUIRED
+DB_NAME : defaultdb
+DB_HOST : shopnex-shopnex.g.aivencloud.com
+DB_PORT : 22158
+DB_USER : avnadmin
+DB_PASSWORD : AVNS_3WqvE9ObSRe3I43wQ7g
+DB_SSL_MODE : REQUIRED

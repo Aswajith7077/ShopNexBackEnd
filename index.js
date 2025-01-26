@@ -18,9 +18,10 @@ const app = express();
 // app.use(cors(corsOptions));
 app.use(
   cors({
-    origin: "https://shop-nex-front-end.vercel.app" // Front-end domain
+    origin: "https://shopnex-front-end.vercel.app" // Front-end domain
   })
 );
+
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
