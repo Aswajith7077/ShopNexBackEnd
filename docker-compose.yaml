@@ -1,8 +1,26 @@
-version: "3"
+version: "3.12"
 services:
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: shopnex-backend
+    container_name: shopnex-backend
     ports:
-      - "8000:8000"
+      - "9001:9001"
     env_file:
-      - ./.env
+      - .env
+    restart: unless-stopped
+  
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000" # Web UI
+    volumes:
+      - ./minio-data:/data
+    env_file:
+      - .env
+    command: server /data --console-address ":9001"
+  
+  

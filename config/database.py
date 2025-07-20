@@ -1,7 +1,13 @@
 from pymongo import MongoClient
-from config.config import db_url,db_name
-from config.config import collection_user,collection_product,collection_cart,collection_promotion
 
+from config.config import (
+    collection_cart,
+    collection_product,
+    collection_promotion,
+    collection_user,
+    db_name,
+    db_url,
+)
 
 client = None
 db = None
@@ -15,7 +21,6 @@ promotion_collection = None
 try:
     client = MongoClient(db_url)
 
-    
     db = client[db_name]
 
     user_collection = db[collection_user]
@@ -23,12 +28,8 @@ try:
     cart_collection = db[collection_cart]
     promotion_collection = db[collection_promotion]
 
-    print('Connection Successfull')
+    print("Connection Successfull")
     # print(list(product_collection.find().limit(10)))
 except Exception as e:
 
-    print("Mongo DB Error : ",e)
-    
-
-
-
+    print("Mongo DB Error : ", e)
